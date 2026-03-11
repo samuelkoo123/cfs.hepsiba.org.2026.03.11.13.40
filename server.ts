@@ -99,8 +99,8 @@ async function startServer() {
   // Auth Routes
   app.post("/api/admin/login", (req, res) => {
     const { password } = req.body;
-    const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "hepsiba1234";
-    if (password === ADMIN_PASSWORD) {
+    const ADMIN_PASSWORD = "hepsiba1234";
+    if (password && password.trim() === ADMIN_PASSWORD) {
       res.json({ success: true });
     } else {
       res.status(401).json({ error: "Invalid admin password" });
