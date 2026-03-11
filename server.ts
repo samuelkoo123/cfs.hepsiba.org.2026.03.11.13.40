@@ -97,12 +97,25 @@ async function startServer() {
   };
 
   // Auth Routes
+  app.get("/api/admin/debug", (req, res) => {
+    res.json({ 
+      status: "running",
+      password_prefix: "hep...",
+      env_admin_pass: !!process.env.ADMIN_PASSWORD,
+      node_env: process.env.NODE_ENV || "development"
+    });
+  });
+
   app.post("/api/admin/login", (req, res) => {
     const { password } = req.body;
+    console.log(`[ADMIN LOGIN] Attempt received. Password: "${password}"`);
     const ADMIN_PASSWORD = "hepsiba1234";
+    
     if (password && password.trim() === ADMIN_PASSWORD) {
+      console.log("[ADMIN LOGIN] Success");
       res.json({ success: true });
     } else {
+      console.log(`[ADMIN LOGIN] Failed. Expected: "${ADMIN_PASSWORD}", Received: "${password}"`);
       res.status(401).json({ error: "Invalid admin password" });
     }
   });
